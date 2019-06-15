@@ -23,8 +23,8 @@ app.use(jsonParser);
 //ROUTES ORDINAIRES (apres PRE traitements , avant POST traitements)
 
 // GET http://localhost:8282/devise/EUR
-app.get('/devise/:numero', function(req :Request, res :Response , next: NextFunction ) {
-     let codeDevise = req.params.numero;
+app.get('/devise/:code', function(req :Request, res :Response , next: NextFunction ) {
+     let codeDevise = req.params.code;
      let devise = mapDevises.get(codeDevise);
      if(devise!=null)
          res.send(mapDevises.get(codeDevise));
@@ -56,8 +56,8 @@ app.put('/devise' , function(req :Request, res :Response ) {
 });
 
 // DELETE http://localhost:8282/devise/EUR
-app.delete('/devise/:numero', function(req :Request, res :Response , next: NextFunction ) {
-    let codeDevise = req.params.numero;
+app.delete('/devise/:code', function(req :Request, res :Response , next: NextFunction ) {
+    let codeDevise = req.params.code;
     if(!mapDevises.has(codeDevise))
        throw new NotFoundError("cannot delete, devise not found with code="+codeDevise);
     mapDevises.delete(codeDevise);
