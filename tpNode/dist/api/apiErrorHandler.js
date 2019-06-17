@@ -66,8 +66,8 @@ exports.apiErrorHandler = function (err, req, res, next) {
     }
     else if (err instanceof Error) {
         //console.log("in apiErrorHandler err is instanceof Error");
-        var status = ErrorWithStatus.extractStatusInNativeError(err);
-        res.status(status).json({ errorCode: "" + status, message: err.message });
+        var status_1 = ErrorWithStatus.extractStatusInNativeError(err);
+        res.status(status_1).json({ errorCode: "" + status_1, message: err.message });
     }
     else
         res.status(500).json({ errorCode: '500', message: 'Internal Server Error' });

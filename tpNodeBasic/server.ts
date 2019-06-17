@@ -29,12 +29,12 @@ app.get('/devise/:code', function(req :Request, res :Response , next: NextFuncti
      if(devise!=null)
          res.send(mapDevises.get(codeDevise));
      else 
-         //res.status(404).send({message:'devise not found'});
+         res.status(404).send({message:'devise not found'});
          //throw "devise not found with code="+codeDevise; //via errorHandler
          //throw new Error("devise not found with code="+codeDevise); 
          //throw new ErrorWithStatus("devise not found with code="+codeDevise,404);
-         throw new NotFoundError("devise not found with code="+codeDevise); 
-         //next(new ErrorWithStatus("devise not found with code="+codeDevise,404)); 
+         //throw new NotFoundError("devise not found with code="+codeDevise); 
+         next(new ErrorWithStatus("devise not found with code="+codeDevise,404)); 
 });
 
 //POST ... with body { "code": "M1" , "nom" : "monnaie1" , "change" : 1.123 }

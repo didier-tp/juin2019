@@ -5,6 +5,17 @@ import { NotFoundError, ConflictError } from '../api/apiErrorHandler';
 
 export class MemoryMapDeviseService implements DeviseDataService{
 
+    saveOrUpdate(d: Devise): Promise<Devise> {
+        return new Promise((resolve,reject) => {
+            if(d.code.length != 3)
+               reject(new Error("code incorrect"));
+            else{
+                this.mapDevises.set(d.code,d);
+                resolve(d);
+            }
+         });
+     }
+
     private delay : number = 50 ; //50ms (simulation async)
 
     private mapDevises = new Map<string,Devise>();

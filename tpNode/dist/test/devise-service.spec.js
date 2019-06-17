@@ -75,5 +75,61 @@ describe("internal deviseService", function () {
                 });
             });
         });
+        /*
+        it("euro for code EUR", function(done) {
+          deviseDataService.findById("EUR")
+          .then((deviseEur)=> {
+                  expect(deviseEur.nom).equals("euro");
+                  console.log("**" +JSON.stringify(deviseEur));
+                  done();//pour indiquer a mocha que le test unitaire est fini
+                  })
+          .catch((err)=>console.log("erreur:"+err));
+        });*/
+        /*
+            it("saveOrUpdate_et_getByIdEnchaine", function(done) {
+              //en Tp , enchainer via ....then().then().catch()
+              //un ajout de nouvelle devise ("Da1")
+              //une relecture de la devise
+              //let nouvelleDev :Devise = { code : "Da1" , nom : "devise a1" , change : 123};
+              let nouvelleDev :Devise = { code : "Da1Wrong" , nom : "devise a1" , change : 123};
+              deviseDataService.saveOrUpdate(nouvelleDev)
+              .then((dEnregistree)=>{
+                //...
+                return deviseDataService.findById("Da1");
+              })
+              .then((deviseRelue)=>{
+                expect(deviseRelue.nom).equals("devise a1");
+                done();
+              })
+              .catch((err)=>{ console.log("err:" + err);
+                             done(err);//mieux que expect.fail("...")
+                              })
+            });
+            */
+        it("saveOrUpdate_et_getByIdEnchaine", function () {
+            return __awaiter(this, void 0, void 0, function () {
+                var nouvelleDev, dEnregistree, deviseRelue, err_1;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            _a.trys.push([0, 3, , 4]);
+                            nouvelleDev = { code: "Da1", nom: "devise a1", change: 123 };
+                            return [4 /*yield*/, deviseDataService.saveOrUpdate(nouvelleDev)];
+                        case 1:
+                            dEnregistree = _a.sent();
+                            return [4 /*yield*/, deviseDataService.findById("Da1")];
+                        case 2:
+                            deviseRelue = _a.sent();
+                            expect(deviseRelue.nom).equals("devise a1");
+                            return [3 /*break*/, 4];
+                        case 3:
+                            err_1 = _a.sent();
+                            console.log("err:" + err_1);
+                            throw err_1;
+                        case 4: return [2 /*return*/];
+                    }
+                });
+            });
+        });
     });
 });

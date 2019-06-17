@@ -1,7 +1,7 @@
 https://github.com/didier-tp/juin2019
 tpts (tp typescript je , ve dernier)
 
-tpNodeBasic (tp ve_ap , lu ) --> revision + approfondir remonter status
+tpNodeBasic (tp ve_ap , lu ) --> revision + tp approfondir "remonter status"
 
 tpNode (idem avec meilleur structure : dao , Promise, test)
 --> comprendre + tester Promise et async/await

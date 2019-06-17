@@ -5,6 +5,7 @@ export interface DeviseDataService {
     findAll() : Promise<Devise[]>; 
     insert(d:Devise) : Promise<Devise>; 
     update(d:Devise): Promise<Devise>; 
+    saveOrUpdate(d:Devise): Promise<Devise>;
     deleteById(code:string) :Promise<void> ;
 }
 /* DeviseDataService pourrait éventuellement hérité de 

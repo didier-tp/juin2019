@@ -32,6 +32,17 @@ var MemoryMapDeviseService = /** @class */ (function () {
         this.mapDevises.set("GBP", new devise_1.Devise("GBP", "livre", 0.9));
         this.mapDevises.set("JPY", new devise_1.Devise("JPY", "yen", 132));
     }
+    MemoryMapDeviseService.prototype.saveOrUpdate = function (d) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            if (d.code.length != 3)
+                reject(new Error("code incorrect"));
+            else {
+                _this.mapDevises.set(d.code, d);
+                resolve(d);
+            }
+        });
+    };
     MemoryMapDeviseService.prototype.findById = function (code) {
         var _this = this;
         return new Promise(function (resolve, reject) {
