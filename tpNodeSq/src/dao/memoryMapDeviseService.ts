@@ -4,6 +4,12 @@ import { NotFoundError, ConflictError } from '../api/apiErrorHandler';
 
 
 export class MemoryMapDeviseService implements DeviseDataService{
+    findDeviseByCodeWithPays(code: string): Promise<Devise> {
+        throw new Error("Method not implemented.");
+    }
+    attachPaysToDevise(codeDevise: string, nomPays: string): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
    
     private delay : number = 50 ; //50ms (simulation async)
 

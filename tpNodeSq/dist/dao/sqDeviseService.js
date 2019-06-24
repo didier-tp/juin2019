@@ -7,6 +7,34 @@ var SqDeviseService = /** @class */ (function () {
     function SqDeviseService() {
         this.deviseModelStatic = global_db_model_1.models.devises;
     }
+    SqDeviseService.prototype.attachPaysToDevise = function (codeDevise, nomPays) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var devise;
+            _this.deviseModelStatic.findByPk(codeDevise)
+                .then(function (dev) {
+                devise = dev;
+                return global_db_model_1.models.pays.findOne({ where: { name: nomPays } });
+            })
+                .then(function (pays) { devise.addPays(pays); })
+                .then(function () { resolve(); })
+                .catch(function (error) { reject(error); });
+        });
+    };
+    SqDeviseService.prototype.findDeviseByCodeWithPays = function (code) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.deviseModelStatic.findByPk(code, { include: [global_db_model_1.models.devises.associations.pays] })
+                .then(function (obj) {
+                //returning null by default if not Found
+                if (obj != null)
+                    resolve(obj);
+                else
+                    reject(new apiErrorHandler_1.NotFoundError("devise not found with code=" + code));
+            })
+                .catch(function (error) { reject(error); });
+        });
+    };
     SqDeviseService.prototype.findById = function (code) {
         var _this = this;
         return new Promise(function (resolve, reject) {

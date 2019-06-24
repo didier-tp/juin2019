@@ -3,6 +3,7 @@ import { Devise } from '../model/devise';
 import { SqDevise, DeviseModelStatic } from '../model/sq-devise';
 import { models } from '../model/global-db-model';
 import { NotFoundError, ConflictError } from '../api/apiErrorHandler';
+import { SqPays } from '../model/sq-pays';
 //"strictNullChecks": false in tsconfig.json
 
 export class SqDeviseService implements DeviseDataService{
@@ -10,6 +11,34 @@ export class SqDeviseService implements DeviseDataService{
     deviseModelStatic : DeviseModelStatic = models.devises;
 
     constructor(){
+    }
+
+    attachPaysToDevise(codeDevise:string,nomPays:string):Promise<void> {
+      return new Promise<void>((resolve: Function, reject: Function) => {
+        let devise:SqDevise;
+        this.deviseModelStatic.findByPk(codeDevise)
+              .then((dev:SqDevise) => 
+                 { devise = dev; 
+                   return models.pays.findOne({where:{name:nomPays}}) 
+                  })
+              .then((pays:SqPays) => { devise.addPays(pays); })
+              .then(() => { resolve();} )
+              .catch((error: Error) => { reject(error);});
+      });
+    }
+
+    findDeviseByCodeWithPays(code : string) : Promise<Devise>{
+      return new Promise<Devise>((resolve: Function, reject: Function) => {
+        this.deviseModelStatic.findByPk(code,{ include :[models.devises.associations.pays]})
+          .then((obj: SqDevise) => {
+            //returning null by default if not Found
+            if(obj!=null)
+                resolve(obj);
+            else 
+               reject(new NotFoundError("devise not found with code="+code));
+          })
+          .catch((error: Error) => { reject(error);});
+      });
     }
 
     findById(code: string): Promise<Devise> {

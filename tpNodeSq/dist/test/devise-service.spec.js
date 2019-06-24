@@ -42,9 +42,12 @@ var chai_1 = __importDefault(require("chai"));
 var devise_1 = require("../model/devise");
 var sqDeviseService_1 = require("../dao/sqDeviseService");
 var global_db_model_1 = require("../model/global-db-model");
+var sqPaysService_1 = require("../dao/sqPaysService");
+var pays_1 = require("../model/pays");
 var expect = chai_1.default.expect;
 //var deviseDataService : DeviseDataService =new MemoryMapDeviseService();
 var deviseDataService = new sqDeviseService_1.SqDeviseService();
+var paysDataService = new sqPaysService_1.SqPaysService();
 describe("internal deviseService", function () {
     before(function (done) {
         // runs before all tests :
@@ -53,6 +56,10 @@ describe("internal deviseService", function () {
             .then(function () {
             console.log("sequelize is initialized");
             deviseDataService.saveOrUpdate(new devise_1.DeviseObject("EUR", "euro", 1))
+                .then(function () { return paysDataService.saveOrUpdate(new pays_1.PaysObject(null, "Espagne", "Madrid")); })
+                .then(function () { return deviseDataService.attachPaysToDevise("EUR", "Espagne"); })
+                .then(function () { return paysDataService.saveOrUpdate(new pays_1.PaysObject(null, "Portugal", "Lisbone")); })
+                .then(function () { return deviseDataService.attachPaysToDevise("EUR", "Portugal"); })
                 .then(function () { return deviseDataService.saveOrUpdate(new devise_1.DeviseObject("USD", "dollar", 1.1)); })
                 .then(function () { return deviseDataService.saveOrUpdate(new devise_1.DeviseObject("GBP", "livre", 0.9)); })
                 .then(function () { return deviseDataService.saveOrUpdate(new devise_1.DeviseObject("JPY", "yen", 132)); })
@@ -81,10 +88,10 @@ describe("internal deviseService", function () {
                 var deviseEur;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, deviseDataService.findById("EUR")];
+                        case 0: return [4 /*yield*/, deviseDataService.findDeviseByCodeWithPays("EUR")];
                         case 1:
                             deviseEur = _a.sent();
-                            //console.log(JSON.stringify(deviseEur));
+                            console.log(JSON.stringify(deviseEur));
                             expect(deviseEur.nom).equals("euro");
                             return [2 /*return*/];
                     }

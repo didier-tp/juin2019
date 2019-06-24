@@ -4,10 +4,14 @@ import { MemoryMapDeviseService } from "../dao/memoryMapDeviseService";
 import { Devise, DeviseObject } from '../model/devise';
 import { SqDeviseService } from '../dao/sqDeviseService';
 import { sequelize } from '../model/global-db-model';
+import { SqPaysService } from '../dao/sqPaysService';
+import { PaysDataService } from '../dao/paysDataService';
+import { Pays, PaysObject } from '../model/pays';
 let expect = chai.expect;
 
 //var deviseDataService : DeviseDataService =new MemoryMapDeviseService();
 var deviseDataService : DeviseDataService =new SqDeviseService();
+var paysDataService : PaysDataService =new SqPaysService();
 
 describe("internal deviseService", function() {
 
@@ -19,6 +23,10 @@ describe("internal deviseService", function() {
 				()=>{ 
               console.log("sequelize is initialized");
               deviseDataService.saveOrUpdate(new DeviseObject("EUR" , "euro" , 1))
+              .then(()=>paysDataService.saveOrUpdate(new PaysObject(null,"Espagne" , "Madrid" )))
+              .then(()=>deviseDataService.attachPaysToDevise("EUR","Espagne"))
+              .then(()=>paysDataService.saveOrUpdate(new PaysObject(null,"Portugal" , "Lisbone" )))
+              .then(()=>deviseDataService.attachPaysToDevise("EUR","Portugal"))
               .then(()=>deviseDataService.saveOrUpdate(new DeviseObject("USD" , "dollar" , 1.1)))
               .then(()=>deviseDataService.saveOrUpdate(new DeviseObject("GBP" , "livre" , 0.9)))
               .then(()=>deviseDataService.saveOrUpdate(new DeviseObject("JPY" , "yen" , 132)))
@@ -37,8 +45,9 @@ describe("internal deviseService", function() {
 
   describe("getDeviseByCode", function() {
     it("euro for code EUR", async function() {
-      let deviseEur: Devise = await deviseDataService.findById("EUR");
-      //console.log(JSON.stringify(deviseEur));
+      //let deviseEur: Devise = await deviseDataService.findById("EUR");
+      let deviseEur: Devise = await deviseDataService.findDeviseByCodeWithPays("EUR");
+      console.log(JSON.stringify(deviseEur));
       expect(deviseEur.nom).equals("euro");
     });
   });

@@ -2,11 +2,13 @@ import { Devise } from "../model/devise";
 
 export interface DeviseDataService {
     findById(code : string) : Promise<Devise>; 
+    findDeviseByCodeWithPays(code : string) : Promise<Devise>;
     findAll() : Promise<Devise[]>; 
     insert(d:Devise) : Promise<Devise>; 
     update(d:Devise): Promise<Devise>; 
     saveOrUpdate(d:Devise) : Promise<Devise>; 
     deleteById(code:string) :Promise<void> ;
+    attachPaysToDevise(codeDevise:string,nomPays:string):Promise<void> ;
 }
 /* DeviseDataService pourrait éventuellement hérité de 
 export interface BasicCrudService<T,ID>{

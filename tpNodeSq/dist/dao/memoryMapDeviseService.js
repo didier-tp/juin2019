@@ -32,6 +32,12 @@ var MemoryMapDeviseService = /** @class */ (function () {
         this.mapDevises.set("GBP", new devise_1.DeviseObject("GBP", "livre", 0.9));
         this.mapDevises.set("JPY", new devise_1.DeviseObject("JPY", "yen", 132));
     }
+    MemoryMapDeviseService.prototype.findDeviseByCodeWithPays = function (code) {
+        throw new Error("Method not implemented.");
+    };
+    MemoryMapDeviseService.prototype.attachPaysToDevise = function (codeDevise, nomPays) {
+        throw new Error("Method not implemented.");
+    };
     MemoryMapDeviseService.prototype.findById = function (code) {
         var _this = this;
         return new Promise(function (resolve, reject) {
