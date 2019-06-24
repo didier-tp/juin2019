@@ -20,6 +20,13 @@ function asyncToResp(fn : Function) {
     };
   }
 
+/**
+ * @apidefine DeviseStructure
+ * @apiSuccess {String} devise.code code of Devise (ex: EUR , USD, GBP , JPY, ...)
+ * @apiSuccess {String} devise.nom  name of Devise (ex: euro , dollar , livre , yen)
+ * @apiSuccess {Number} devise.change  change for 1 euro.
+ */
+
 // GET http://localhost:8282/devise/EUR
 // apidoc comment (npm install -g apidoc , apidoc -i dist/api/ -o apidoc/)
 /**
@@ -30,9 +37,7 @@ function asyncToResp(fn : Function) {
  * @apiParam {String} code unique code of Devise (ex: EUR , USD, GBP , JPY)
  *
  * @apiSuccess {Object} devise devise values as json string
- * @apiSuccess {String} devise.code code of Devise (ex: EUR , USD, GBP , JPY)
- * @apiSuccess {String} devise.nom  name of Devise (ex: euro , dollar , livre , yen)
- * @apiSuccess {Number} devise.change  change for 1 euro.
+ * @apiUse DeviseStructure
  * @apiSuccessExample {json}  Success
  *    HTTP/1.1 200 OK
  *    {"code":"EUR","nom":"euro","change":1}

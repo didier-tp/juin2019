@@ -1,11 +1,12 @@
 import { Sequelize , Model }from "sequelize";
 import { DeviseModelStatic , initDeviseModel } from './sq-devise';
 import { confDb  } from "../config/db-config"
+import { PaysModelStatic, initPaysModel } from "./sq-pays";
 //import { PaysModelStatic , initPaysModel } from "./sq-pays";
 
 export class MyApiModels {
     public devises! : DeviseModelStatic;
-    //public pays! : PaysModelStatic;
+    public pays! : PaysModelStatic;
   }
   
   export class MySqDatabase {
@@ -29,27 +30,10 @@ export class MyApiModels {
       this.dbname = confDb.database;
      
      this.models.devises= initDeviseModel(this.sequelize);
-     //this.models.pays= initPaysModel(this.sequelize);
-      /*
-      model = this.sequelize.import('./AUTRE_OBJET');
-      this.models.autreObjets = model as SequelizeStatic.Model<.., ...>;
-      this.models.autreObjets.belongsTo(this.models.objets, { foreignKey: 'OBJET_ID' });
-      */
-      /* import automatique
-      fs.readdirSync(__dirname).filter((file: string) => {
-      return (file !== this._basename) && (file !== "iface");
-      }).forEach((file: string) => {
-      let model = this._sequelize.import(path.join(__dirname, file));
-      console.log(`importing ${path.join(__dirname, file)}`);
-      this._models[(model as any).name] = model;
-      });
-  
-      Object.keys(this._models).forEach((modelName: string) => {
-      if (typeof this._models[modelName].associate === "function") {
-          this._models[modelName].associate(this._models);
-      }
-      });
-      */
+     this.models.pays= initPaysModel(this.sequelize);
+     this.models.devises.hasMany(this.models.pays);
+     //this.models.pays.belongsTo(this.models.devises);
+      
     }
   
     getModels() {
